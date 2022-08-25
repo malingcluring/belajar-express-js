@@ -7,7 +7,7 @@ app.engine('hbs', engine({
     extname: 'hbs',
 }));
 app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, './views'));
+app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -15,9 +15,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 const port = 3030;
 
 // route
-app.get('/', function (req, res) {
-    res.send('Hello World!');
-});
+app.get('/', function(req, res){
+    res.render('home', {
+        layout: 'index',
+    })
+})
 
 app.listen(port, function () {
     console.log(`Example app listening on port ${port}`);

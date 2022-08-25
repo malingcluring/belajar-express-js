@@ -1,7 +1,18 @@
+@import './sass/manifest';
+
 html {
     height: 100%;
 }
 
 body {
     height: 100%;
+}
+
+li {
+    margin-bottom: 8px;
+    padding: 6px;
+    background-color: #f0f0f0;
+    color: red;
+    font-family: $font-indie-flower;
+    text-transform: capitalize
 }
