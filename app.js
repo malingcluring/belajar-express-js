@@ -9,6 +9,8 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, './views'));
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 // port 3030
 const port = 3030;
 
