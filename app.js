@@ -35,17 +35,17 @@ mongoose.connect(database.url);
 const port = 3030;
 
 // route
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
     res.render('home', {
         layout: 'index',
     })
 })
 
 // get all employee data from db
-app.get('/api/employees', function(req, res){
+app.get('/api/employees', function (req, res) {
 
     // use mongoose to get all todos in the database
-    Employee.find(function(err, employees){
+    Employee.find(function (err, employees) {
 
         // if there is an error retrieving , send the error otherwise send data
         if (err) {
@@ -53,6 +53,62 @@ app.get('/api/employees', function(req, res){
         }
 
         res.json(employees);
+    });
+});
+
+// Get an employee with ID of 1
+app.get('/api/employees/:employee_id', function (req, res) {
+    let id = req.params.employee_id;
+    Employee.findById(id, function (err, employee) {
+        if (err) {
+            res.send(err);
+        }
+
+        res.json(employee);
+    });
+});
+
+// Create employee and send back all employees after creation
+app.post('/api/employees', function (req, res) {
+
+    // Create Mongoose method to create a new record in to collection
+    Employee.create({
+        name: req.body.name,
+        salary: req.body.salary,
+        age: req.body.age,
+    }, function (err, employee) {
+        if (err) {
+            res.send(err);
+        }
+
+        // Get and return all the Employee after newly created employee recored
+        Employee.find(function (err, employees) {
+            if (err) {
+                res.send(err);
+            }
+
+            res.json(employees);
+        });
+    });
+});
+
+// Create employee and send back all employees after creation
+app.put('/api/employees/:employee_id', function (req, res) {
+
+    // Create mongoose method to update an existing record into collection
+    let id = req.params.employee_id;
+
+    const data = {
+        name: req.body.name,
+        salary: req.body.salary,
+        age: req.body.age,
+    }
+
+    // Save the user
+    Employee.findByIdAndUpdate(id, data, function (err, employee) {
+        if (err) throw err;
+
+        res.send('Successfully! Employee updated - ' + employee.name);
     });
 });
 
